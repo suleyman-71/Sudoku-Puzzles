@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
-    int _hour = 0;
-    int _minute = 0;
-    int _seconds = 0;
+    //int _hour = 0;
+    //int _minute = 0;
+    //int _seconds = 0;
 
     private TextMeshProUGUI _textClock;
     private float _deltaTime;
@@ -36,7 +36,7 @@ public class Clock : MonoBehaviour
     
     void Update()
     {
-        if (_stopClock == false)
+        if (GameSettings.Instance.GetPaused() == false && _stopClock == false)
         {
             _deltaTime += Time.deltaTime;
             TimeSpan span = TimeSpan.FromSeconds(_deltaTime);

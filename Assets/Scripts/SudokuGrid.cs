@@ -9,6 +9,7 @@ public class SudokuGrid : MonoBehaviour
     public int rows = 0;
     public float square_offset = 0.0f;
     public float square_scale = 1.0f;
+    public float squareGap = 0.1f;
     public Vector2 start_position = new Vector2(0.0f, 0.0f);
     public GameObject grid_square;
 
@@ -40,6 +41,8 @@ public class SudokuGrid : MonoBehaviour
     {
         var square_rect = _grid_squares[0].GetComponent<RectTransform>();
         Vector2 offset = new Vector2();
+        Vector2 squareGapNumber = new Vector2(0.0f, 0.0f);
+        bool rowMoved = false;
         offset.x = square_rect.rect.width * square_rect.transform.localScale.x + square_offset;
         offset.y = square_rect.rect.height * square_rect.transform.localScale.y + square_offset;
 
@@ -52,10 +55,26 @@ public class SudokuGrid : MonoBehaviour
             {
                 row_number++;
                 column_number = 0;
+                squareGapNumber.x = 0;
+                rowMoved = false;
             }
 
-            var pos_x_offset = offset.x * column_number;
-            var pos_y_offset = offset.y * row_number;
+            var pos_x_offset = offset.x * column_number + (squareGapNumber.x * squareGap);
+            var pos_y_offset = offset.y * row_number + (squareGapNumber.y * squareGap);
+
+            if (column_number > 0 && column_number % 3 == 0)
+            {
+                squareGapNumber.x++;
+                pos_x_offset += squareGap;
+            }
+
+            if (row_number > 0 && row_number % 3 == 0 && rowMoved == false)
+            {
+                rowMoved = true;
+                squareGapNumber.y++;
+                pos_y_offset += squareGap;
+            }
+
             square.GetComponent<RectTransform>().anchoredPosition = new Vector2(start_position.x + pos_x_offset, start_position.y - pos_y_offset);
             column_number++;
         }
