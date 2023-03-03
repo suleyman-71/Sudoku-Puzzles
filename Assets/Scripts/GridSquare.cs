@@ -11,12 +11,18 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
 {
     public GameObject number_text;
     private int _number = 0;
+    private int _correct_number = 0;
     private bool _selected = false;
     private int _square_index = -1;
     public bool IsSelected() { return _selected; }
     public void SetSquareIndex(int index)
     { 
         _square_index = index; 
+    }
+
+    public void SetCorrectNumber(int number) 
+    { 
+        _correct_number = number; 
     }
     void Start()
     {
@@ -69,6 +75,21 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
         if (_selected)
         {
             SetNumber(number);
+
+            if (_number != _correct_number)
+            {
+                var colors = this.colors;
+                colors.normalColor = Color.red;
+                this.colors = colors;
+
+                GameEvents.OnWrongNumberMethod();
+            }
+            else
+            {
+                var colors = this.colors;
+                colors.normalColor = Color.white;
+                this.colors = colors;
+            }
         }
     }
 
