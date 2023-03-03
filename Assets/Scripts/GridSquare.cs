@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using static GameEvents;
 
-public class GridSquare : Selectable
+public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPointerUpHandler, IPointerExitHandler
 {
     public GameObject number_text;
     private int _number = 0;
-    
+    private bool _selected = false;
+    private int _square_index = -1;
+    public bool IsSelected() { return _selected; }
+    public void SetSquareIndex(int index)
+    { 
+        _square_index = index; 
+    }
+    void Start()
+    {
+        _selected = false;
+    }
 
-    
     void Update()
     {
         
@@ -28,5 +40,43 @@ public class GridSquare : Selectable
     {
         _number = number;
         DisplayText();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        _selected= true;
+        GameEvents.SquareSelectedMethod(_square_index);
+    }
+    public void OnSubmit(BaseEventData eventData)
+    {
+
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnUpdateSquareNumber += OnSetNumber;
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnUpdateSquareNumber -= OnSetNumber;
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    public void OnSetNumber(int number)
+    {
+        if (_selected)
+        {
+            SetNumber(number);
+        }
+    }
+
+    public void OnSquareSelected(int square_index)
+    {
+        if (_square_index != square_index)
+        {
+            _selected = false;
+        }
     }
 }
