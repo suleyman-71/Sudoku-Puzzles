@@ -2550,6 +2550,7 @@ MonoBehaviour:
   square_offset: 2.5
   square_scale: 0.9
   squareGap: 5
+  lineHighlightColor: {r: 0.19245279, g: 0.8239829, b: 1, a: 1}
   start_position: {x: -435, y: 442}
   grid_square: {fileID: 1794328124614270000, guid: 777febe333bfb83468a678c2bda74914, type: 3}
 --- !u!222 &1299330098
@@ -2867,6 +2868,7 @@ GameObject:
   - component: {fileID: 1449368246}
   - component: {fileID: 1449368245}
   - component: {fileID: 1449368247}
+  - component: {fileID: 1449368248}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -2916,6 +2918,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b5be6ac81108264398de6d8836b3ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1449368248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449368244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9956e0235442b144ea3c3828e1d8b699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1450222279

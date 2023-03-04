@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameEvents;
 
 public class SudokuGrid : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SudokuGrid : MonoBehaviour
     public float square_offset = 0.0f;
     public float square_scale = 1.0f;
     public float squareGap = 0.1f;
+    public Color lineHighlightColor = Color.red;
     public Vector2 start_position = new Vector2(0.0f, 0.0f);
     public GameObject grid_square;
 
@@ -116,5 +118,40 @@ public class SudokuGrid : MonoBehaviour
             _grid_squares[index].GetComponent<GridSquare>().SetCorrectNumber(data.solved_data[index]);
             _grid_squares[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
         }
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+    private void OnDisable()
+    {
+        GameEvents.OnSquareSelected -= OnSquareSelected;
+    }
+
+    private void SetSquaresColor(int[] data, Color col)
+    {
+        foreach (var index in data)
+        {
+            var comp = _grid_squares[index].GetComponent<GridSquare>();
+            if (comp.IsSelected() == false)
+            {
+                comp.SetSquareColor(col);
+            }
+        }
+    }
+
+    public void OnSquareSelected(int squareIndex)
+    {
+        var horizontalLine = LineIndicator.instance.GetHorizontalLine(squareIndex);
+        var verticalLine = LineIndicator.instance.GetVerticalLine(squareIndex);
+        var square = LineIndicator.instance.GetSquare(squareIndex);
+        
+        SetSquaresColor(LineIndicator.instance.GetAllSquareIndexes(), Color.white);
+
+        SetSquaresColor(horizontalLine, lineHighlightColor);
+        SetSquaresColor(verticalLine, lineHighlightColor);
+        SetSquaresColor(square, lineHighlightColor);
+
     }
 }
